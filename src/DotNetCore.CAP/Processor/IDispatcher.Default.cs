@@ -57,16 +57,19 @@ namespace DotNetCore.CAP.Processor
             {
                 while (!_publishedMessageQueue.IsCompleted)
                 {
-                    if (_publishedMessageQueue.TryTake(out var message, 100, _cts.Token))
+                    if (_publishedMessageQueue.TryTake(out var message, 3000, _cts.Token))
                     {
-                        try
+                        Task.Run(async () =>
                         {
-                            _sender.SendAsync(message);
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, $"An exception occurred when sending a message to the MQ. Topic:{message.Name}, Id:{message.Id}");
-                        }
+                            try
+                            {
+                                await _sender.SendAsync(message);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, $"An exception occurred when sending a message to the MQ. Topic:{message.Name}, Id:{message.Id}");
+                            }
+                        });
                     }
                 }
             }
@@ -82,7 +85,7 @@ namespace DotNetCore.CAP.Processor
             {
                 foreach (var message in _receivedMessageQueue.GetConsumingEnumerable(_cts.Token))
                 {
-                    _executor.ExecuteAsync(message);
+                    _executor.ExecuteAsync(message, _cts.Token);
                 }
             }
             catch (OperationCanceledException)

@@ -1,3 +1,7 @@
+<p align="center">
+  <img height="140" src="https://cap.dotnetcore.xyz/img/logo.svg">
+</p>
+
 # CAP 　　　　　　　　　　　　　　　　　　　　　　[中文](https://github.com/dotnetcore/CAP/blob/master/README.zh-cn.md)
 [![Travis branch](https://img.shields.io/travis/dotnetcore/CAP/master.svg?label=travis-ci)](https://travis-ci.org/dotnetcore/CAP)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/v8gfh6pe2u2laqoa/branch/master?svg=true)](https://ci.appveyor.com/project/yuleyule66/cap/branch/master)
@@ -8,15 +12,13 @@
 
 CAP is a library based on .Net standard, which is a solution to deal with distributed transactions, also has the function of EventBus, it is lightweight, easy to use, and efficiently.
 
-## Overview
-
 In the process of building an SOA or MicroService system, we usually need to use the event to integrate each services. In the process, the simple use of message queue does not guarantee the reliability. CAP is adopted the local message table program integrated with the current database to solve the exception may occur in the process of the distributed system calling each other. It can ensure that the event messages are not lost in any case.
 
 You can also use the CAP as an EventBus. The CAP provides a simpler way to implement event publishing and subscriptions. You do not need to inherit or implement any interface during the process of subscription and sending.
 
-This is a diagram of the CAP working in the ASP.NET Core MicroService architecture:
+## Architecture overview
 
-![cap.png](http://docs.dotnet-china.org/CAP/img/architecture.png)
+![cap.png](https://cap.dotnetcore.xyz/img/architecture-new.png)
 
 > CAP implements the Outbox Pattern described in the [eShop ebook](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/multi-container-microservice-net-applications/subscribe-events#designing-atomicity-and-resiliency-when-publishing-to-the-event-bus).
 
@@ -247,7 +249,7 @@ services.AddCap(x =>
 });
 ```
 
-The default dashboard address is :[http://localhost:xxx/cap](http://localhost:xxx/cap) , you can also change the `cap` suffix to others with `d.MatchPath` configuration options.
+The default dashboard address is :[http://localhost:xxx/cap](http://localhost:xxx/cap), you can also configure the `/cap` suffix with `x.UseDashboard(opt =>{ opt.MatchPath="/mycap"; })`.
 
 ![dashboard](http://images2017.cnblogs.com/blog/250417/201710/250417-20171004220827302-189215107.png)
 
