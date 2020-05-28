@@ -1,6 +1,7 @@
 ﻿// Copyright (c) .NET Core Community. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using DotNetCore.CAP.Transport;
 using Microsoft.Extensions.Options;
 
 namespace DotNetCore.CAP.RabbitMQ
@@ -20,7 +21,9 @@ namespace DotNetCore.CAP.RabbitMQ
         {
             try
             {
-                return new RabbitMQConsumerClient(groupId, _connectionChannelPool, _rabbitMQOptions);
+               var client = new RabbitMQConsumerClient(groupId, _connectionChannelPool, _rabbitMQOptions);
+               client.Connect();
+               return client;
             }
             catch (System.Exception e)
             {

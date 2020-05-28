@@ -1,6 +1,7 @@
 ﻿// Copyright (c) .NET Core Community. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using DotNetCore.CAP.Transport;
 using Microsoft.Extensions.Options;
 
 namespace DotNetCore.CAP.Kafka
@@ -18,7 +19,9 @@ namespace DotNetCore.CAP.Kafka
         {
             try
             {
-                return new KafkaConsumerClient(groupId, _kafkaOptions);
+                var client = new KafkaConsumerClient(groupId, _kafkaOptions);
+                client.Connect();
+                return client;
             }
             catch (System.Exception e)
             {
